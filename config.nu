@@ -199,7 +199,7 @@ $env.config = {
             warn: {}
             info: {}
         },
-        selected_cell: { bg: light_blue },
+        selected_cell: { fg: "#ffffff", bg: blue, attr: b },
     }
 
     history: {
