@@ -896,3 +896,5 @@ $env.config = {
         }
     ]
 }
+
+# source nu-themes/catppuccin-mocha.nu
