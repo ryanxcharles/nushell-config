@@ -101,6 +101,17 @@ $env.NU_PLUGIN_DIRS = [
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
 
-#let-env PATH = ($env.PATH | prepend "/opt/homebrew/bin")
+$env.EDITOR = "nvim"
+$env.NVM_DIR = "/Users/ryan/.nvm"
+# source "/Users/ryan/.nvm/nvm.sh"
+
 use std "path add"
-path add /opt/homebrew/bin
+path add "/Users/ryan/bin"
+path add "/Users/ryan/dev/lua-language-server/bin"
+path add "/opt/homebrew/bin"
+path add "/opt/homebrew/opt/mysql-client/bin"
+$env.DENO_INSTALL = "/Users/ryan/.deno"
+path add "/Users/ryan/.deno/bin"
+$env.PNPM_HOME = "/Users/ryan/Library/pnpm"
+path add "/Users/ryan/Library/pnpm"
+path add "/opt/homebrew/opt/node@20/bin"
