@@ -3,7 +3,7 @@
 # version = "0.99.1"
 
 def create_left_prompt [] {
-    let dir = match (do --ignore-shell-errors { $env.PWD | path relative-to $nu.home-path }) {
+    let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
         null => $env.PWD
         '' => '~'
         $relative_pwd => ([~ $relative_pwd] | path join)
@@ -114,7 +114,7 @@ $env.DENO_INSTALL = "/Users/ryan/.deno"
 path add "/Users/ryan/.deno/bin"
 $env.PNPM_HOME = "/Users/ryan/Library/pnpm"
 path add "/Users/ryan/Library/pnpm"
-path add "/opt/homebrew/opt/node@20/bin"
+path add "/opt/homebrew/opt/node@22/bin"
 
 use std/dirs shells-aliases *
 # for the "enter" command
