@@ -115,6 +115,8 @@ path add "/Users/ryan/.deno/bin"
 $env.PNPM_HOME = "/Users/ryan/Library/pnpm"
 path add "/Users/ryan/Library/pnpm"
 path add "/opt/homebrew/opt/node@22/bin"
+$env.CARGO_HOME = "/Users/ryan/.cargo"
+path add "/Users/ryan/.cargo/bin"
 
 use std/dirs shells-aliases *
 # for the "enter" command
