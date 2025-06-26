@@ -120,3 +120,5 @@ path add "/Users/ryan/.cargo/bin"
 
 use std/dirs shells-aliases *
 # for the "enter" command
+
+source "env_api_keys.nu"
