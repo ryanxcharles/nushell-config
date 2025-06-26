@@ -698,3 +698,196 @@ $env.OPENAI_API_KEY = "..."
 however, i don't want these variables stored in my primary env.nu file.
 
 i would like to make a separate file called something like env_api_keys.nu. can i do that, and then load that nu file from my main env.nu file?
+
+# === ASSISTANT ===
+
+I'm glad to hear that you were able to fix the issue by using explicit variable names! Yes, you can absolutely create a separate file like `env_api_keys.nu` to store sensitive environment variables and load it from your main `env.nu` file. NuShell supports sourcing external scripts, which allows you to modularize your configuration and keep sensitive data separate from your primary configuration files. This is a common and recommended practice for managing sensitive information like API keys.
+
+Below, I'll guide you through the steps to create a separate file for your API keys and load it from `env.nu`.
+
+### Step 1: Create a Separate File for API Keys
+Create a new file called `env_api_keys.nu` in your NuShell configuration directory (or another secure location of your choice). The typical location for NuShell configuration files is `~/.config/nushell/` on Unix-like systems (macOS/Linux) or `%appdata%\nushell\` on Windows. Storing it here keeps it alongside your other configuration files, but you can place it elsewhere if you prefer.
+
+In `env_api_keys.nu`, add your explicit environment variable assignments. For example:
+
+```nu
+# env_api_keys.nu
+$env.OPENAI_API_KEY = "your-openai-api-key-here"
+$env.ANOTHER_API_KEY = "your-other-api-key-here"
+# Add more API keys or sensitive variables as needed
+```
+
+**Security Note**: Ensure that this file is not committed to version control (e.g., Git). You can add it to your `.gitignore` file or store it in a location outside your repository. Additionally, set appropriate file permissions (e.g., `chmod 600 env_api_keys.nu` on Unix-like systems) to restrict access to only your user.
+
+### Step 2: Source the File from `env.nu`
+In your main `env.nu` file (located at `~/.config/nushell/env.nu` or similar), you can use the `source` command to load `env_api_keys.nu`. The `source` command executes the contents of the specified file in the current context, making the environment variables defined in `env_api_keys.nu` available in your NuShell environment.
+
+Update your `env.nu` file to include the following:
+
+```nu
+# env.nu
+# Source the API keys file if it exists
+let api_keys_file = "~/.config/nushell/env_api_keys.nu"
+if ($api_keys_file | path exists) {
+    source $api_keys_file
+    print $"Loaded API keys from ($api_keys_file)"
+} else {
+    print $"API keys file not found at ($api_keys_file)"
+}
+```
+
+#### Explanation:
+- **`let api_keys_file = "~/.config/nushell/env_api_keys.nu"`**: Defines the path to your `env_api_keys.nu` file. Adjust this path if you’ve placed the file elsewhere.
+- **`if ($api_keys_file | path exists)`**: Checks if the file exists before attempting to source it, preventing errors if the file is missing.
+- **`source $api_keys_file`**: Executes the contents of `env_api_keys.nu`, setting the environment variables defined there.
+- **`print` Statements**: Provide feedback on whether the file was loaded or not, which is useful for debugging.
+
+### Step 3: Verify the Setup
+After updating both files, restart your NuShell session or source `env.nu` manually to apply the changes:
+
+```nu
+source ~/.config/nushell/env.nu
+```
+
+Then, check if the environment variables from `env_api_keys.nu` are set correctly:
+
+```nu
+$env.OPENAI_API_KEY
+```
+
+Or view all environment variables to confirm:
+
+```nu
+$env
+```
+
+You should see `OPENAI_API_KEY` and any other variables defined in `env_api_keys.nu` listed among your environment variables.
+
+### Additional Notes and Best Practices
+1. **File Location**:
+   - Storing `env_api_keys.nu` in `~/.config/nushell/` keeps it with your other NuShell configs, which is convenient. However, if you’re concerned about security or accidental exposure, you can store it in a more obscure or protected location (e.g., `~/.secure/nushell/env_api_keys.nu`) and update the path in `env.nu` accordingly.
+   - Ensure the file’s directory has restricted permissions to prevent unauthorized access.
+
+2. **Security Considerations**:
+   - Avoid storing sensitive data like API keys in files that might be backed up to public cloud storage or version control systems.
+   - Consider using a password manager or environment variable management tool (like `direnv` or a secrets manager) if you work in environments where file-based storage is risky.
+   - If you’re on a shared system, ensure the file permissions are tight (e.g., `chmod 600 env_api_keys.nu` on Unix-like systems).
+
+3. **Dynamic Loading from `.env` (Optional)**:
+   - If you later find a way to dynamically load variables (e.g., after a NuShell update or finding a compatible method), you can update `env_api_keys.nu` to parse a `.env` file specific to API keys. For now, explicit variable names work reliably as you’ve discovered.
+
+4. **Multiple Files**:
+   - You can source multiple files from `env.nu` if you have different categories of environment variables (e.g., `env_api_keys.nu`, `env_database.nu`). Just add additional `source` commands with appropriate `if` checks for each file.
+
+5. **Error Handling**:
+   - The `if` check ensures that NuShell won’t throw an error if `env_api_keys.nu` is missing. This is useful if you use the same `env.nu` across different machines where the API keys file might not exist.
+
+### Alternative: Loading from a Different Directory
+If you prefer to store `env_api_keys.nu` outside the NuShell config directory, for example in `~/.secrets/`, you can update the path in `env.nu`:
+
+```nu
+# env.nu
+let api_keys_file = "~/.secrets/env_api_keys.nu"
+if ($api_keys_file | path exists) {
+    source $api_keys_file
+    print $"Loaded API keys from ($api_keys_file)"
+} else {
+    print $"API keys file not found at ($api_keys_file)"
+}
+```
+
+Make sure to create the directory (`mkdir ~/.secrets`) and move the file there if needed.
+
+### Conclusion
+By creating a separate `env_api_keys.nu` file and sourcing it from `env.nu`, you can keep your sensitive environment variables organized and out of your primary configuration file. This approach is fully supported in NuShell via the `source` command and aligns with best practices for managing sensitive data.
+
+Let me know if you encounter any issues with sourcing the file or if you’d like help with additional security measures or automation (e.g., loading from a `.env` file dynamically in the future if NuShell supports it better). I’m happy to assist!
+
+# === USER ===
+
+can i change this code to make my prompt the current folder only, and not the full path?
+
+```nu
+def create_left_prompt [] {
+    let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
+        null => $env.PWD
+        '' => '~'
+        $relative_pwd => ([~ $relative_pwd] | path join)
+    }
+
+    let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
+    let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
+    let path_segment = $"($path_color)($dir)(ansi reset)"
+
+    $path_segment | str replace --all (char path_sep) $"($separator_color)(char path_sep)($path_color)"
+}
+```
+
+# === ASSISTANT ===
+
+Yes, you can modify the code for your left prompt in NuShell to display only the current folder (the basename of the current directory) instead of the full path. The current code shows the full path relative to your home directory (or the absolute path if outside home), but we can adjust it to extract just the last component of the path using `path basename`.
+
+Below is the updated code to display only the current folder name in your prompt:
+
+```nu
+def create_left_prompt [] {
+    let dir = ($env.PWD | path basename)
+
+    let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
+    let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
+    let path_segment = $"($path_color)($dir)(ansi reset)"
+
+    $path_segment
+}
+```
+
+### Explanation of Changes
+- **`let dir = ($env.PWD | path basename)`**: This replaces the original logic that computed a relative path. `path basename` extracts only the last component of the current directory path (`$env.PWD`), which is the name of the current folder. For example:
+  - If `$env.PWD` is `/home/user/projects/myapp`, `dir` will be `myapp`.
+  - If `$env.PWD` is `/var/log`, `dir` will be `log`.
+- **Removed Path Separator Logic**: Since we're no longer displaying a full path with separators, the line that replaces `char path_sep` with colored separators is removed. The prompt now simply shows the folder name in the specified color.
+
+### Verifying the Change
+After updating this code in your NuShell configuration (likely in `config.nu` under `~/.config/nushell/` or similar), restart your NuShell session or source the configuration file:
+
+```nu
+source ~/.config/nushell/config.nu
+```
+
+Then, navigate to different directories to confirm that the prompt shows only the current folder name instead of the full path. For example:
+- In `/home/user/projects/myapp`, the prompt should display `myapp`.
+- In `/etc`, the prompt should display `etc`.
+
+### Additional Customizations (Optional)
+If you’d like to add some context or flair to the prompt while still showing only the current folder, here are a few ideas:
+1. **Add a Static Prefix**: If you want to indicate that this is a directory, you can add a static symbol or text before the folder name:
+   ```nu
+   let path_segment = $"($path_color)📁 ($dir)(ansi reset)"
+   ```
+   This adds a folder emoji (📁) before the folder name.
+
+2. **Fallback for Root or Home**: If you want special handling for certain directories (like showing `~` for home), you can add a conditional:
+   ```nu
+   let dir = (if $env.PWD == $nu.home-path {
+       "~"
+   } else {
+       $env.PWD | path basename
+   })
+   let path_segment = $"($path_color)($dir)(ansi reset)"
+   ```
+
+3. **Admin Indicator**: The `is-admin` check and color logic is still in place, so the folder name will be red if you're running as an admin and green otherwise. If you want to change this, adjust the `path_color` logic.
+
+### Notes
+- **Configuration Location**: Ensure this `create_left_prompt` function is in your `config.nu` file or wherever you define your prompt in your NuShell setup. If it’s not already tied to the prompt, you might need to set it with something like `let-env PROMPT_COMMAND = { create_left_prompt }` in `env.nu` or `config.nu`.
+- **Prompt Command Setup**: If the prompt doesn’t update after sourcing, double-check that `create_left_prompt` is being used by your prompt setup. You can verify or set it with:
+  ```nu
+  $env.PROMPT_COMMAND = {|| create_left_prompt }
+  ```
+  This ensures the function is called to generate the left prompt.
+
+This updated code should give you a clean, concise prompt showing just the current folder name. Let me know if you encounter any issues or if you'd like further customizations to the prompt!
+
+# === USER ===
+
+
