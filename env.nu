@@ -132,7 +132,8 @@ alias python = python3.11
 
 # this is for tch-rs, the tool for putting pytorch in rust
 # $env.LIBTORCH_USE_PYTORCH = "1"
-$env.LIBTORCH = (brew --prefix pytorch)
+# $env.LIBTORCH = (brew --prefix pytorch)
+$env.LIBTORCH = "/opt/homebrew/lib/python3.11/site-packages/torch"
 $env.LD_LIBRARY_PATH = ($env.LIBTORCH | path join "lib")
 
 use std/dirs shells-aliases *
