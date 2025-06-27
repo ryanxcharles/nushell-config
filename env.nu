@@ -111,7 +111,7 @@ $env.NU_PLUGIN_DIRS = [
 # source ($nu.default-config-dir | path join 'custom.nu')
 
 $env.EDITOR = "nvim"
-$env.NVM_DIR = "/Users/ryan/.nvm"
+# $env.NVM_DIR = "/Users/ryan/.nvm"
 # source "/Users/ryan/.nvm/nvm.sh"
 
 use std "path add"
@@ -127,7 +127,22 @@ path add "/opt/homebrew/opt/node@22/bin"
 $env.CARGO_HOME = "/Users/ryan/.cargo"
 path add "/Users/ryan/.cargo/bin"
 
+alias pip = pip3.11
+alias python = python3.11
+
+# this is for tch-rs, the tool for putting pytorch in rust
+# $env.LIBTORCH_USE_PYTORCH = "1"
+# $env.LIBTORCH = (brew --prefix pytorch)
+# $env.LD_LIBRARY_PATH = $env.LIBTORCH + "/lib" # + ":" + $env.LD_LIBRARY_PATH
+
 use std/dirs shells-aliases *
 # for the "enter" command
 
+# topiary-cli is a tool for formatting code. there is a plugin for nushell here:
+# https://github.com/blindFS/topiary-nushell
+# these environment variables are used by the topiary-nushell plugin
+$env.TOPIARY_CONFIG_FILE = ($env.XDG_CONFIG_HOME | path join topiary languages.ncl)
+$env.TOPIARY_LANGUAGE_DIR = ($env.XDG_CONFIG_HOME | path join topiary languages)
+
+# api keys for ai
 source "env_api_keys.nu"
