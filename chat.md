@@ -890,4 +890,4 @@ This updated code should give you a clean, concise prompt showing just the curre
 
 # === USER ===
 
-
+somewhere in my nushell config is something that sets the "error" color. when typing in a command, if it detects there is something wrong, it highlights in a bright red/pink color, which is impossible to read. i'd like to change this. i need to make the red and text color higher contrast so i can read the text. however, i don't know what setting to change. do you know?
