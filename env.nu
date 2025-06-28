@@ -3,13 +3,13 @@
 # version = "0.99.1"
 
 def create_left_prompt [] {
-    let dir = ($env.PWD | path basename)
+  let dir = ($env.PWD | path basename)
 
-    let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
-    let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
-    let path_segment = $"($path_color)($dir)(ansi reset)"
+  let path_color = (if (is-admin) { ansi red_bold } else { ansi green_bold })
+  let separator_color = (if (is-admin) { ansi light_red_bold } else { ansi light_green_bold })
+  let path_segment = $"($path_color)($dir)(ansi reset)"
 
-    $path_segment
+  $path_segment
 }
 # def create_left_prompt [] {
 #     let dir = match (do --ignore-errors { $env.PWD | path relative-to $nu.home-path }) {
@@ -26,22 +26,22 @@ def create_left_prompt [] {
 # }
 
 def create_right_prompt [] {
-    # # create a right prompt in magenta with green separators and am/pm underlined
-    # let time_segment = ([
-    #     (ansi reset)
-    #     (ansi magenta)
-    #     (date now | format date '%x %X') # try to respect user's locale
-    # ] | str join | str replace --regex --all "([/:])" $"(ansi green)${1}(ansi magenta)" |
-    #     str replace --regex --all "([AP]M)" $"(ansi magenta_underline)${1}")
+  # # create a right prompt in magenta with green separators and am/pm underlined
+  # let time_segment = ([
+  #     (ansi reset)
+  #     (ansi magenta)
+  #     (date now | format date '%x %X') # try to respect user's locale
+  # ] | str join | str replace --regex --all "([/:])" $"(ansi green)${1}(ansi magenta)" |
+  #     str replace --regex --all "([AP]M)" $"(ansi magenta_underline)${1}")
 
-    # let last_exit_code = if ($env.LAST_EXIT_CODE != 0) {([
-    #     (ansi rb)
-    #     ($env.LAST_EXIT_CODE)
-    # ] | str join)
-    # } else { "" }
+  # let last_exit_code = if ($env.LAST_EXIT_CODE != 0) {([
+  #     (ansi rb)
+  #     ($env.LAST_EXIT_CODE)
+  # ] | str join)
+  # } else { "" }
 
-    # ([$last_exit_code, (char space), $time_segment] | str join)
-    ""
+  # ([$last_exit_code, (char space), $time_segment] | str join)
+  ""
 }
 
 # Use nushell functions to define your right and left prompt
@@ -73,27 +73,27 @@ $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
 # - converted from a value back to a string when running external commands (to_string)
 # Note: The conversions happen *after* config.nu is loaded
 $env.ENV_CONVERSIONS = {
-    "PATH": {
-        from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
-        to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
-    }
-    "Path": {
-        from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
-        to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
-    }
+  "PATH": {
+    from_string: {|s| $s | split row (char esep) | path expand --no-symlink }
+    to_string: {|v| $v | path expand --no-symlink | str join (char esep) }
+  }
+  "Path": {
+    from_string: {|s| $s | split row (char esep) | path expand --no-symlink }
+    to_string: {|v| $v | path expand --no-symlink | str join (char esep) }
+  }
 }
 
 # Directories to search for scripts when calling source or use
 # The default for this is $nu.default-config-dir/scripts
 $env.NU_LIB_DIRS = [
-    ($nu.default-config-dir | path join 'scripts') # add <nushell-config-dir>/scripts
-    ($nu.data-dir | path join 'completions') # default home for nushell completions
+  ($nu.default-config-dir | path join 'scripts') # add <nushell-config-dir>/scripts
+  ($nu.data-dir | path join 'completions') # default home for nushell completions
 ]
 
 # Directories to search for plugin binaries when calling register
 # The default for this is $nu.default-config-dir/plugins
 $env.NU_PLUGIN_DIRS = [
-    ($nu.default-config-dir | path join 'plugins') # add <nushell-config-dir>/plugins
+  ($nu.default-config-dir | path join 'plugins') # add <nushell-config-dir>/plugins
 ]
 
 # To add entries to PATH (on Windows you might use Path), you can use the following pattern:
@@ -148,3 +148,27 @@ $env.TOPIARY_LANGUAGE_DIR = ($env.XDG_CONFIG_HOME | path join topiary languages)
 
 # api keys for ai
 source "env_api_keys.nu"
+
+$env.config.plugin_gc = {
+  # Settings for plugins not otherwise specified:
+  default: {
+    enabled: true # set to false to never automatically stop plugins
+    stop_after: 10sec # how long to wait after the plugin is inactive before stopping it
+  }
+  # Settings for specific plugins, by plugin name
+  # (i.e. what you see in `plugin list`):
+  plugins: {
+    nutorch: {
+      stop_after: 10min
+    }
+    gstat: {
+      stop_after: 1min
+    }
+    inc: {
+      stop_after: 0sec # stop as soon as possible
+    }
+    example: {
+      enabled: false # never stop automatically
+    }
+  }
+}
