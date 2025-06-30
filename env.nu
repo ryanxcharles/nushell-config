@@ -124,7 +124,7 @@ $env.DENO_INSTALL = "/Users/ryan/.deno"
 path add "/Users/ryan/.deno/bin"
 $env.PNPM_HOME = "/Users/ryan/Library/pnpm"
 path add "/Users/ryan/Library/pnpm"
-path add "/opt/homebrew/opt/node@22/bin"
+path add "/opt/homebrew/opt/node@24/bin"
 $env.CARGO_HOME = "/Users/ryan/.cargo"
 path add "/Users/ryan/.cargo/bin"
 
