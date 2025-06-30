@@ -111,6 +111,7 @@ $env.NU_PLUGIN_DIRS = [
 # source ($nu.default-config-dir | path join 'custom.nu')
 
 $env.EDITOR = "nvim"
+# $env.TERM = "WezTerm"
 # $env.NVM_DIR = "/Users/ryan/.nvm"
 # source "/Users/ryan/.nvm/nvm.sh"
 
