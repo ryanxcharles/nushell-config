@@ -127,6 +127,7 @@ path add "/Users/ryan/Library/pnpm"
 path add "/opt/homebrew/opt/node@24/bin"
 $env.CARGO_HOME = "/Users/ryan/.cargo"
 path add "/Users/ryan/.cargo/bin"
+path add "~/bin"
 
 # alias pip = pip3.11
 # alias python = python3.11
