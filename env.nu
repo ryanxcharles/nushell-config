@@ -151,6 +151,9 @@ $env.TOPIARY_LANGUAGE_DIR = ($env.XDG_CONFIG_HOME | path join topiary languages)
 # api keys for ai
 source "env_api_keys.nu"
 
+# git completions
+source "~/dev/nu_scripts/custom-completions/git/git-completions.nu"
+
 $env.config.plugin_gc = {
   # Settings for plugins not otherwise specified:
   default: {
