@@ -165,7 +165,7 @@ $env.config.plugin_gc = {
   # Settings for specific plugins, by plugin name
   # (i.e. what you see in `plugin list`):
   plugins: {
-    nutorch: {
+    torch: {
       stop_after: 10min
     }
     gstat: {
