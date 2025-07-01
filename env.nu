@@ -153,6 +153,8 @@ source "env_api_keys.nu"
 
 # git completions
 source "~/dev/nu_scripts/custom-completions/git/git-completions.nu"
+# cargo completions
+source "~/dev/nu_scripts/custom-completions/cargo/cargo-completions.nu"
 
 $env.config.plugin_gc = {
   # Settings for plugins not otherwise specified:
