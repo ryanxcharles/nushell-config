@@ -128,8 +128,8 @@ path add "/opt/homebrew/opt/node@24/bin"
 $env.CARGO_HOME = "/Users/ryan/.cargo"
 path add "/Users/ryan/.cargo/bin"
 
-alias pip = pip3.11
-alias python = python3.11
+# alias pip = pip3.11
+# alias python = python3.11
 
 # this is for tch-rs, the tool for putting pytorch in rust
 # $env.LIBTORCH_USE_PYTORCH = "1"
