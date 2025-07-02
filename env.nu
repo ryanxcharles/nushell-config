@@ -115,6 +115,7 @@ $env.EDITOR = "nvim"
 # $env.NVM_DIR = "/Users/ryan/.nvm"
 # source "/Users/ryan/.nvm/nvm.sh"
 
+# brew and other external packages
 use std "path add"
 path add "/Users/ryan/bin"
 path add "/Users/ryan/dev/lua-language-server/bin"
@@ -128,6 +129,9 @@ path add "/opt/homebrew/opt/node@24/bin"
 $env.CARGO_HOME = "/Users/ryan/.cargo"
 path add "/Users/ryan/.cargo/bin"
 path add "~/bin"
+# my packages
+path add "/Users/ryan/dev/nutorch/rs/nutorch/target/release"
+path add "/Users/ryan/dev/chatvim.cli/bin"
 
 # alias pip = pip3.11
 # alias python = python3.11
