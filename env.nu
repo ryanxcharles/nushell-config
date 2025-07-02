@@ -155,6 +155,9 @@ $env.TOPIARY_LANGUAGE_DIR = ($env.XDG_CONFIG_HOME | path join topiary languages)
 # api keys for ai
 source "env_api_keys.nu"
 
+# aliases
+alias vim = nvim
+
 # git completions
 source "~/dev/nu_scripts/custom-completions/git/git-completions.nu"
 # cargo completions
