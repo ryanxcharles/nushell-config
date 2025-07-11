@@ -130,11 +130,9 @@ $env.CARGO_HOME = "/Users/ryan/.cargo"
 path add "/Users/ryan/.cargo/bin"
 path add "~/bin"
 # my packages
-path add "/Users/ryan/dev/nutorch/rs/nutorch/target/release"
+# path add "/Users/ryan/dev/nutorch/rs/nutorch/target/release"
 path add "/Users/ryan/dev/chatvim.cli/bin"
-
-# alias pip = pip3.11
-# alias python = python3.11
+path add "/Library/TeX/texbin"
 
 # this is for tch-rs, the tool for putting pytorch in rust
 # $env.LIBTORCH_USE_PYTORCH = "1"
@@ -157,32 +155,12 @@ source "env_api_keys.nu"
 
 # aliases
 alias vim = nvim
+alias macopen = /usr/bin/open
+# alias pip = pip3.11
+# alias python = python3.11
+
 
 # git completions
 source "~/dev/nu_scripts/custom-completions/git/git-completions.nu"
 # cargo completions
 source "~/dev/nu_scripts/custom-completions/cargo/cargo-completions.nu"
-
-$env.config.plugin_gc = {
-  # Settings for plugins not otherwise specified:
-  default: {
-    enabled: true # set to false to never automatically stop plugins
-    stop_after: 10sec # how long to wait after the plugin is inactive before stopping it
-  }
-  # Settings for specific plugins, by plugin name
-  # (i.e. what you see in `plugin list`):
-  plugins: {
-    torch: {
-      stop_after: 10min
-    }
-    gstat: {
-      stop_after: 1min
-    }
-    inc: {
-      stop_after: 0sec # stop as soon as possible
-    }
-    example: {
-      enabled: false # never stop automatically
-    }
-  }
-}
