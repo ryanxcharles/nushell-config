@@ -73,6 +73,7 @@ path add "~/bin"
 # path add "/Users/ryan/dev/nutorch/rs/nutorch/target/release"
 path add "/Users/ryan/dev/chatvim.cli/bin"
 path add "/Library/TeX/texbin"
+path add "/usr/local/bin"
 
 # this is for tch-rs, the tool for putting pytorch in rust
 $env.LIBTORCH = "/opt/homebrew/lib/python3.11/site-packages/torch"
