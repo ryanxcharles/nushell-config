@@ -903,3 +903,8 @@
 #     }
 #   ]
 # }
+
+$env.config = {
+  edit_mode: vi
+  # ... other config options
+}
