@@ -76,6 +76,7 @@ path add "/Library/TeX/texbin"
 path add "/usr/local/bin"
 path add "~/.local/bin"
 path add "/Applications/Docker.app/Contents/Resources/bin"
+path add "/opt/homebrew/opt/sqlite/bin"
 
 # this is for tch-rs, the tool for putting pytorch in rust
 $env.LIBTORCH = "/opt/homebrew/lib/python3.11/site-packages/torch"
