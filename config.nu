@@ -907,4 +907,17 @@
 $env.config = {
   edit_mode: vi
   # ... other config options
+  history: {
+    file_format: 'sqlite'
+    # history_file: "~/.local/share/nushell/history.sqlite"
+    max_size: 100000
+    sync_on_enter: true
+    # auto_add: true
+    # isolation: false
+    # merge_strategy: 'always_newest'
+    # save_timestamp: true
+    # save_exit_code: true
+    # save_cwd: true
+    # truncate_on_exit: true
+  }
 }
