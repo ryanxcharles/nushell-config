@@ -2,3 +2,4 @@ history.txt
 .env
 env_api_keys.nu
 plugin.msgpackz
+history.sqlite3
